@@ -47,8 +47,12 @@ export const useUsers = () => {
 
   const handleUpdateUser = (idUser: number, user: User) => {
     isDelayedUpdateCancelled.current = true;
-
-    // TODO: How would you do this?
+    
+    setData((prev: User[] | undefined) =>
+      prev?.map((prevUser:User) =>
+        prevUser?.idUser === idUser ? user : prevUser
+      )
+    );
   };
 
   if (!data) {
