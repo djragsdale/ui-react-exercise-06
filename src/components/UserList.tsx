@@ -14,11 +14,15 @@ export const UserList = ({ isLoading, onEditUser, users }: UserListProps) => {
     return <Spinner intent="primary" size={100} />;
   }
 
-  return <>{users?.length ? (<table>
+  if(!users?.length) {
+    return <div>There is no items</div>;
+  }
+
+  return <table>
     <tbody>
       {users.map ((userItem, index) =>
         <UserListItem key={`user-list-item-${userItem.idUser}-${index}`} userItem={userItem} onEditUser={onEditUser} />
       )}
     </tbody>
-  </table>) : null}</>;
+  </table>;
 };
