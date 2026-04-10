@@ -1,6 +1,7 @@
 import { Spinner } from "@blueprintjs/core";
 
 import type { User } from "../types/User";
+import { UserListItem } from "./UserListItem";
 
 type UserListProps = {
   isLoading?: boolean;
@@ -13,5 +14,11 @@ export const UserList = ({ isLoading, onEditUser, users }: UserListProps) => {
     return <Spinner intent="primary" size={100} />;
   }
 
-  return <>Build user list here</>;
+  return <>{users?.length ? (<table>
+    <tbody>
+      {users.map ((userItem, index) =>
+        <UserListItem key={`user-list-item-${userItem.idUser}-${index}`} userItem={userItem} onEditUser={onEditUser} />
+      )}
+    </tbody>
+  </table>) : null}</>;
 };
