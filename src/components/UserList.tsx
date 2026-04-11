@@ -20,7 +20,7 @@ export const UserList = ({ isLoading, onEditUser, users }: UserListProps) => {
 
   return <table>
     <tbody>
-      {users.map ((userItem, index) =>
+      {users?.map ((userItem, index) =>
         <UserListItem key={`user-list-item-${userItem.idUser}-${index}`} userItem={userItem} onEditUser={onEditUser} />
       )}
     </tbody>
