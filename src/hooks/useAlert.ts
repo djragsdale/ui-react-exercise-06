@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 export const useAlert = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
 
-  const closeAlert = () => {
-    setIsOpen(false);
-  }
+  const closeAlert = useCallback(() => {
+      setIsOpen(false);
+  }, []);
 
   const showAlert = (message: string) => {
     setMessage(message);
