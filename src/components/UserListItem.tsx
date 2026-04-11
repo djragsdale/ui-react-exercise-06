@@ -1,5 +1,6 @@
 import type { User } from "../types/User";
-import "./UserListItem.scss";
+
+import { Button } from "@blueprintjs/core";
 
 type UserListItemProps = {
   onEditUser?: (user: User) => void;
@@ -12,7 +13,7 @@ export const UserListItem = ({ userItem, onEditUser }: UserListItemProps) => {
     return <tr>
         <td>{text}</td>
         <td>
-            <button className="edit-button-class" onClick={() => onEditUser?.(userItem)}>Edit</button>
+            <Button icon="edit" aria-label="edit" intent="primary" onClick={() => onEditUser?.(userItem)} />
         </td>
     </tr>
 };
