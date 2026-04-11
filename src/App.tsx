@@ -26,7 +26,7 @@ const App = () => {
         <UserList isLoading={isLoading} users={data} onEditUser={(userItem) => handleOnEditUser(userItem.idUser, userItem)} />
       </Card>
       <Alert
-        confirmButtonText="Okay"
+        confirmButtonText="Ok"
         intent="success"
         isOpen={isOpenAlert}
         loading={isLoading}
