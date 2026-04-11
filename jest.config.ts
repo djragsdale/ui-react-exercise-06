@@ -7,9 +7,6 @@ const config: Config.InitialOptions = {
   transform: {
     "^.+\\.tsx?$": "ts-jest",
   },
-  moduleNameMapper: {
-    "\\.(css|scss)$": "identity-obj-proxy"
-  }
 };
 
 export default config;
