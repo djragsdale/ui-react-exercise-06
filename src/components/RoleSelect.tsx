@@ -19,9 +19,10 @@ export const RoleSelect = ({ role, onChangeRole }: RoleSelectProps) => {
         setRoleSelected(role);
     }, [role]);
 
-    const handleSelect = (item: Role) => {
-        setRoleSelected(item);
-        onChangeRole(item);
+    const handleSelect = (role: Role) => {
+        const selected: Role = role;
+        setRoleSelected(selected);
+        onChangeRole(selected);
     }
 
     return <TextSelect
