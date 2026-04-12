@@ -4,20 +4,25 @@ import { Button } from "@blueprintjs/core";
 
 import { TextSelect } from "./TextSelect";
 
-const testRoles = ["Enginner", "Administrator", "Support Technician"];
+const testItems = ["one", "two"];
+const triggerText = "Select a number";
+const roleListBox = "listbox";
+const Trigger = () => <Button text={triggerText} />
 
 describe("TextSelect", () => {
   it("renders text select", () => {
     render(
     <TextSelect
-      items={testRoles}
+      items={testItems}
       usePortal={false}
       onItemSelect={jest.fn()}
-      trigger={<Button text="Select role" />}
+      getKey={(r) => r}
+      getLabel={(r) => r}
+      trigger={<Trigger />}
     />
     );
 
-    expect(screen.getByText("Select role")).toBeInTheDocument();
+    expect(screen.getByText(triggerText)).toBeInTheDocument();
    });
 
   it("text select is open when click on trigger", async () => {
@@ -25,35 +30,39 @@ describe("TextSelect", () => {
 
     render(
         <TextSelect
-        items={testRoles}
+        items={testItems}
         usePortal={false}
         onItemSelect={jest.fn()}
-        trigger={<Button text="Select role" />}
+        getKey={(r) => r}
+        getLabel={(r) => r}
+        trigger={<Trigger />}
         />
     );
 
-    expect(screen.getByText("Select role")).toBeInTheDocument();
+    expect(screen.getByText(triggerText)).toBeInTheDocument();
 
-    await user.click(screen.getByText("Select role"));
+    await user.click(screen.getByText(triggerText));
 
-    expect(await screen.findByRole("listbox")).toBeInTheDocument();
+    expect(await screen.findByRole(roleListBox)).toBeInTheDocument();
   });
 
   it("invokes onItemSelect callback when menuitem is pressed", async () => {
     const onItemSelect = jest.fn();
     const user = userEvent.setup();
     render(<TextSelect
-        items={testRoles}
+        items={testItems}
         usePortal={false}
         onItemSelect={onItemSelect}
-        trigger={<Button text="Select role" />}
+        getKey={(r) => r}
+        getLabel={(r) => r}
+        trigger={<Trigger />}
     />);
 
-    await user.click(screen.getByText("Select role"));
-    await user.click(await screen.findByText(testRoles[0]));
+    await user.click(screen.getByText(triggerText));
+    await user.click(await screen.findByText(testItems[0]));
 
     expect(onItemSelect).toHaveBeenCalled();
-    expect(onItemSelect.mock.calls[0][0]).toBe(testRoles[0]);
+    expect(onItemSelect.mock.calls[0][0]).toBe(testItems[0]);
   });
 
   it("closes popover after selecting an item", async () => {
@@ -62,17 +71,19 @@ describe("TextSelect", () => {
 
     render(
         <TextSelect
-        items={testRoles}
+        items={testItems}
         usePortal={false}
         onItemSelect={onItemSelect}
-        trigger={<Button text="Select role" />}
+        getKey={(r) => r}
+        getLabel={(r) => r}
+        trigger={<Trigger />}
         />
     );
 
-    await user.click(screen.getByText("Select role"));
-    await user.click(await screen.findByText(testRoles[0]));
+    await user.click(screen.getByText(triggerText));
+    await user.click(await screen.findByText(testItems[0]));
     await waitFor(() => {
-        expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+        expect(screen.queryByRole(roleListBox)).not.toBeInTheDocument();
     });
   });
 });
