@@ -5,39 +5,44 @@ import { type MenuItemProps } from "@blueprintjs/core";
 
 import "./TextSelect.scss";
 
-type TextSelectWithSelectProps = {
-    itemSelected?: string;
+type TextSelectWithSelectProps<T> = {
+    itemSelected?: T;
+    items: readonly T[];
     trigger?: ReactNode;
     usePortal?: boolean;
-} & Pick<
-    SelectProps<string>,
-    "items" | "onItemSelect"
->;
+    getLabel?: (item: T) => string;
+    getKey?: (item: T) => React.Key;
+} & Pick<SelectProps<T>, "items" | "onItemSelect">;
 
-export const TextSelect = ({
+export const TextSelect = <T,>({
     items,
     itemSelected,
     trigger,
     usePortal,
     onItemSelect,
-}: TextSelectWithSelectProps) => {
-    const getItemProps = (item: string, itemProps: ItemRendererProps): Omit<MenuItemProps, "key"> => {
+    getLabel,
+    getKey,
+}: TextSelectWithSelectProps<T>) => {
+    const getItemProps = (
+        item: T,
+        itemProps: ItemRendererProps
+    ): Omit<MenuItemProps, "key"> => {
     const { handleClick, handleFocus, modifiers } = itemProps;
     return {
             active: modifiers.active,
             disabled: modifiers.disabled,
             onClick: handleClick,
             onFocus: handleFocus,
-            text: item,
+            text: getLabel?.(item),
             roleStructure: "none"
         };
     }
 
-    const renderItem: ItemRenderer<string> = (item, props) => {
-        return <MenuItem key={item} {...getItemProps(item, props)} />;
+    const renderItem: ItemRenderer<T> = (item, props) => {
+        return <MenuItem key={getKey?.(item)} {...getItemProps(item, props)} />;
     };
 
-    return <Select<string>
+    return <Select<T>
             items={items}
             itemRenderer={renderItem}
             filterable={false}
