@@ -1,8 +1,8 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { Button } from "@blueprintjs/core";
 
 import { TextSelect } from "./TextSelect";
-import { Button } from "@blueprintjs/core";
 
 const testRoles = ["Enginner", "Administrator", "Support Technician"];
 
