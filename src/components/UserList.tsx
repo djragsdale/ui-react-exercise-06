@@ -18,7 +18,7 @@ export const UserList = ({ isLoading, onEditUser, users }: UserListProps) => {
     return <div>There is no items</div>;
   }
 
-  return <table style={{ tableLayout: "fixed" }}>
+  return <table style={{ width: "100%", tableLayout: "fixed" }}>
     <tbody>
       {users?.map ((userItem, index) =>
         <UserRow key={`user-list-item-${userItem.idUser}-${index}`} userItem={userItem} onEditUser={onEditUser} />
