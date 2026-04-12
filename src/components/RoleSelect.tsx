@@ -1,21 +1,27 @@
-import { useState } from "react";
-import { TextSelect } from "./ui/TextSelect";
+import { useState, useEffect } from "react";
 
+import { Role, roles } from "../types/Role";
+
+import { TextSelect } from "./ui/TextSelect";
 import { Button } from "@blueprintjs/core";
 
-const roles = ["Enginner", "Administrator", "Support Technician"];
+const defaultSelectRole = "Select role";
 
 type RoleSelectProps = {
-    role?: string;
-    onChangeRole: (role:string) => void;
+    role?: Role;
+    onChangeRole: (role:Role) => void;
 }
 
 export const RoleSelect = ({ role, onChangeRole }: RoleSelectProps) => {
-    const [roleSelected, setRoleSelected] = useState(role?? "");
+    const [roleSelected, setRoleSelected] = useState<Role | undefined>(role);
 
-    const handleSelect = (role: string) => {
+    useEffect(() => {
         setRoleSelected(role);
-        onChangeRole(role);
+    }, [role]);
+
+    const handleSelect = (item: Role) => {
+        setRoleSelected(item);
+        onChangeRole(item);
     }
 
     return <TextSelect
@@ -23,11 +29,13 @@ export const RoleSelect = ({ role, onChangeRole }: RoleSelectProps) => {
                 itemSelected={roleSelected}
                 usePortal={false}
                 onItemSelect={handleSelect}
+                getKey={(r) => r}
+                getLabel={(r) => r}
                 trigger={
                     <Button
                         style={{ width: "100%" }}
                         alignText="left"
-                        text={roleSelected}
+                        text={roleSelected?? defaultSelectRole}
                         rightIcon="caret-down"
                     />
                 }
