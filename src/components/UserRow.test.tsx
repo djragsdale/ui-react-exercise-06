@@ -1,7 +1,7 @@
 import { act, render } from "@testing-library/react";
 
 import { UserRow } from "./UserRow";
-import { Role } from "../types/Role";
+import { roles } from "../types/Role";
 
 const testUser = {
     idUser: 1,
@@ -9,7 +9,7 @@ const testUser = {
       firstName: "ABC",
       lastName: "DEF",
     },
-    role: "Engineer" as Role,
+    role: roles[0],
 };
 
 describe("UserRow", () => {
@@ -19,7 +19,7 @@ describe("UserRow", () => {
     expect(row?.textContent).toMatch("1");
     expect(row?.textContent).toMatch("ABC");
     expect(row?.textContent).toMatch("DEF");
-    expect(row?.textContent).toMatch("Engineer");
+    expect(row?.textContent).toMatch(roles[0]);
   });
 
   it("invokes onEditUser callback when Edit button is pressed", () => {
