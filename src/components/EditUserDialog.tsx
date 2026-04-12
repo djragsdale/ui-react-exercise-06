@@ -8,7 +8,7 @@ import { Card, Button } from "@blueprintjs/core";
 import { RoleSelect } from "./RoleSelect";
 
 interface EditUserDialog {
-    onEditUser?: (editedUserData: User | undefined) => void;
+    onEditUser?: (idUser: number, editedUserData: User) => void;
     isOpen?: boolean;
     userData?: User;
     onClose?: () => void;
@@ -29,6 +29,12 @@ export const EditUserDialog = ({ isOpen, userData, onEditUser, onClose, }: EditU
         });
     }
 
+    const handleEditUser = (user?: User) => {
+        if(!user) return;
+        onEditUser?.(user.idUser, user);
+        onClose?.();
+    }
+
     return <UIDialog
             title="Edit User"
             isCloseButtonShown={false}
@@ -36,7 +42,7 @@ export const EditUserDialog = ({ isOpen, userData, onEditUser, onClose, }: EditU
             icon="edit"
             footerActions={(<>
                               <Button onClick={onClose}>Cancel</Button>
-                              <Button onClick={() => onEditUser?.(editedUserData)}>Save</Button>
+                              <Button onClick={() => handleEditUser?.(editedUserData)}>Save</Button>
                             </>
                           )}
             >
