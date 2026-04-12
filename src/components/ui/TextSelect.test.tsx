@@ -1,4 +1,4 @@
-import { act, render, fireEvent, screen } from "@testing-library/react";
+import { act, render, fireEvent, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { TextSelect } from "./TextSelect";
@@ -36,7 +36,7 @@ describe("TextSelect", () => {
 
     await user.click(screen.getByText("Select role"));
 
-    const popover = await screen.queryByRole("listbox");
+    const popover = screen.queryByRole("listbox");
 
     expect(popover).toBeInTheDocument();
   });
@@ -56,5 +56,27 @@ describe("TextSelect", () => {
 
     expect(onItemSelect).toHaveBeenCalled();
     expect(onItemSelect.mock.calls[0][0]).toBe(testRoles[0]);
+  });
+
+  it("closes popover after selecting an item", async () => {
+    const user = userEvent.setup();
+    const onItemSelect = jest.fn();
+
+    render(
+        <TextSelect
+        items={testRoles}
+        usePortal={false}
+        onItemSelect={onItemSelect}
+        trigger={<Button text="Select role" />}
+        />
+    );
+
+    await user.click(screen.getByText("Select role"));
+    await user.click(await screen.findByText(testRoles[0]));
+    const popover = screen.queryByRole("listbox");
+
+    await waitFor(() => {
+        expect(popover).not.toBeInTheDocument();
+    });
   });
 });
