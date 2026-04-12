@@ -1,6 +1,8 @@
 import { act, renderHook } from "@testing-library/react";
 
 import { TIME_DELAY, useUsers } from "./useUsers";
+import { roles } from "../types/Role";
+import { User } from "../types/User";
 
 describe("useUsers", () => {
   beforeAll(() => {
@@ -35,15 +37,18 @@ describe("useUsers", () => {
     const beforeUsersMap = new Map(
       usersBeforeUpdateOnlyUser?.map((user) => [user.idUser, user])
     );
-    expect(beforeUsersMap.has(idUserToEdit)).toBe(true);
-    const newUserData = {
-        idUser: idUserToEdit,
-        profile: {
-        firstName: "Adam",
-        lastName: "Alpaca",
+    const currentUser = beforeUsersMap.get(idUserToEdit);
+    expect(currentUser).toBeTruthy();
+
+    const newUserData: User = {
+      idUser: idUserToEdit,
+      profile: {
+        firstName: currentUser?.profile.firstName ?? "",
+        lastName: currentUser?.profile.lastName ?? ""
       },
-      role: "Director",
+      role: roles[1]
     };
+
     act(() => {
       result.current.updateUser(idUserToEdit, newUserData);
     });
