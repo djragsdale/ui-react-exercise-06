@@ -9,8 +9,6 @@ import { EditUserDialog } from "./components/EditUserDialog";
 import { useUsers } from "./hooks/useUsers";
 import { useEditUserDialog } from "./hooks/useEditUserDialog";
 
-import type { User } from "./types/User";
-
 const App = () => {
   const { data, isLoading, updateUser } = useUsers();
   const {
