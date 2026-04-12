@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import type { User } from "../types/User";
+import type { Role } from "../types/Role";
 
 import { UIDialog } from "./ui/UIDialog";
 import { Card, Button } from "@blueprintjs/core";
@@ -21,7 +22,7 @@ export const EditUserDialog = ({ isOpen, userData, onEditUser, onClose, }: EditU
         setEditedUserData(userData);
     }, [userData])
 
-    const handleOnChangeRole = (role: string) => {
+    const handleOnChangeRole = (role: Role) => {
         setEditedUserData(prevUser => {
             if(!prevUser) return prevUser;
             
