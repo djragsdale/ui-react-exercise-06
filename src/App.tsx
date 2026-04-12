@@ -20,12 +20,6 @@ const App = () => {
     closeEditUserDialog,
   } = useEditUserDialog();
 
-  const handleOnEditUser = (user?: User) => {
-    if(!user) return;
-    updateUser(user.idUser, user);
-    closeEditUserDialog();
-  }
-
   return (
     <div className={`App ${Classes.DARK}`}>
       <h1>UI Screening 01</h1>
@@ -35,7 +29,7 @@ const App = () => {
       <EditUserDialog
         isOpen={isOpenEditUserDialog}
         userData={selectedUserEditUserDialog}
-        onEditUser={handleOnEditUser}
+        onEditUser={updateUser}
         onClose={closeEditUserDialog}
       />
     </div>
