@@ -23,7 +23,7 @@ const App = () => {
   return (
     <div className={`App ${Classes.DARK}`}>
       <h1>UI Screening 01</h1>
-      <Card>
+      <Card style={{ width: "50%" }}>
         <UserList isLoading={isLoading} users={data} onEditUser={showEditUserDialog} />
       </Card>
       <EditUserDialog
