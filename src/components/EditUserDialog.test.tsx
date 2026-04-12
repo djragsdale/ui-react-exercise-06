@@ -1,6 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
+import { roles } from "../types/Role";
+
 import { useState } from "react";
 import { EditUserDialog } from "./EditUserDialog";
 
@@ -10,7 +12,7 @@ const testUser = {
       firstName: "ABC",
       lastName: "DEF",
     },
-    role: "Enginner",
+    role: roles[0],
 };
 
 describe("EditUserDialog", () => {
