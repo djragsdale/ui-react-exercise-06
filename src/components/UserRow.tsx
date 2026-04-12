@@ -18,7 +18,7 @@ export const UserRow = ({ userItem, onEditUser }: UserRowProps) => {
         <td>{userItem.idUser}</td>
         <td>{userItem.profile.firstName}</td>
         <td>{userItem.profile.lastName}</td>
-        <td>{userItem.role}</td>
+        <td style={{ width: "140px" }}>{userItem.role}</td>
         <td>
             <Button icon="edit" aria-label="edit" intent="primary" onClick={onEditUserRow} />
         </td>
