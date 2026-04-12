@@ -34,9 +34,6 @@ export const TextSelect = ({
     }
 
     const renderItem: ItemRenderer<string> = (item, props) => {
-        if (!props.modifiers.matchesPredicate) {
-            return null;
-        }
         return <MenuItem key={item} {...getItemProps(item, props)} />;
     };
 
