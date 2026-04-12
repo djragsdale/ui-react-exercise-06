@@ -1,25 +1,71 @@
-import { Button, Dialog, DialogBody, DialogFooter, type DialogProps } from "@blueprintjs/core";
+import { useState, useEffect } from "react";
 
-interface EditUserDialogWithDialogProps extends Omit<DialogProps, "isOpen"> {
-    messageText: string;
-    onEditUser?: () => void;
-    isOpen: boolean;
+import type { User } from "../types/User";
+
+import { UIDialog } from "./ui/UIDialog";
+import { Card, Button } from "@blueprintjs/core";
+
+import { RoleSelect } from "./RoleSelect";
+
+interface EditUserDialog {
+    onEditUser?: (editedUserData: User | undefined) => void;
+    isOpen?: boolean;
+    userData?: User;
+    onClose?: () => void;
 }
 
-export const EditUserDialog = ({ isOpen, messageText, onEditUser, onClose }: EditUserDialogWithDialogProps) => {
-    const footerActions = (
-        <>
-            <Button onClick={onClose}>Cancel</Button>
-            <Button onClick={onEditUser}>Save</Button>
-        </>
-    );
+export const EditUserDialog = ({ isOpen, userData, onEditUser, onClose, }: EditUserDialog) => {
+    const [editedUserData, setEditedUserData] = useState<User | undefined>(userData);
 
-    return <Dialog icon="edit" isOpen={isOpen} onClose={onClose}>
-                <DialogBody>
-                    <p>
-                        {messageText}
-                    </p>
-                </DialogBody>
-                <DialogFooter actions={footerActions} />
-            </Dialog>
+    useEffect(() => {
+        setEditedUserData(userData);
+    }, [userData])
+
+    const handleOnChangeRole = (role: string) => {
+        setEditedUserData(prevUser => {
+            if(!prevUser) return prevUser;
+            
+            return {...prevUser, role, }
+        });
+    }
+
+    return <UIDialog
+            title="Edit User"
+            isCloseButtonShown={false}
+            isOpen={isOpen}
+            icon="edit"
+            footerActions={(<>
+                              <Button onClick={onClose}>Cancel</Button>
+                              <Button onClick={() => onEditUser?.(editedUserData)}>Save</Button>
+                            </>
+                          )}
+            >
+            <Card style={{ width: "100%" }}>
+                <table style={{ width: "100%", tableLayout: "fixed" }}>
+                    <tbody>
+                    <tr>
+                        <td>Id: </td>
+                        <td>{userData?.idUser}</td>
+                    </tr>
+                    <tr>
+                        <td>FirstName: </td>
+                        <td>{userData?.profile.firstName}</td>
+                    </tr>
+                    <tr>
+                        <td>LastName: </td>
+                        <td>{userData?.profile.lastName}</td>
+                    </tr>
+                    <tr>
+                        <td>Role: </td>
+                        <td>
+                            <RoleSelect
+                                role={userData?.role}
+                                onChangeRole={handleOnChangeRole}
+                            />
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </Card>
+          </UIDialog>
 };
