@@ -1,24 +1,21 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 
 import type { User } from "../types/User";
+import { useUserDialog } from "./useUserDialog";
 
 export const useEditUserDialog = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [selectedUser, setSelectedUser] = useState<User>();
+  const { isOpenDialog, showDialog, closeDialog } = useUserDialog();
 
-  const closeDialog = useCallback(() => {
-    setIsOpen(false);
-  }, []);
-
-  const showDialog = (user: User) => {
+  const showEditUserDialog = (user: User) => {
     setSelectedUser(user);
-    setIsOpen(true);
+    showDialog();
   }
   
   return {
-    isOpenEditUserDialog: isOpen,
+    isOpenEditUserDialog: isOpenDialog,
     closeEditUserDialog: closeDialog,
-    showEditUserDialog: showDialog,
+    showEditUserDialog,
     selectedUserEditUserDialog: selectedUser,
   }
 };
