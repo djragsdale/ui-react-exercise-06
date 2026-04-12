@@ -1,4 +1,4 @@
-import { act, render, fireEvent, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { TextSelect } from "./TextSelect";
@@ -36,9 +36,7 @@ describe("TextSelect", () => {
 
     await user.click(screen.getByText("Select role"));
 
-    const popover = screen.queryByRole("listbox");
-
-    expect(popover).toBeInTheDocument();
+    expect(await screen.findByRole("listbox")).toBeInTheDocument();
   });
 
   it("invokes onItemSelect callback when menuitem is pressed", async () => {
@@ -73,10 +71,8 @@ describe("TextSelect", () => {
 
     await user.click(screen.getByText("Select role"));
     await user.click(await screen.findByText(testRoles[0]));
-    const popover = screen.queryByRole("listbox");
-
     await waitFor(() => {
-        expect(popover).not.toBeInTheDocument();
+        expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
     });
   });
 });
