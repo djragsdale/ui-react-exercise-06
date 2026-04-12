@@ -46,7 +46,7 @@ export const EditUserDialog = ({ isOpen, userData, onEditUser, onClose, }: EditU
                             </>
                           )}
             >
-            <Card style={{ width: "100%" }}>
+            <Card>
                 <table style={{ width: "100%", tableLayout: "fixed" }}>
                     <tbody>
                     <tr>
@@ -62,7 +62,7 @@ export const EditUserDialog = ({ isOpen, userData, onEditUser, onClose, }: EditU
                         <td>{userData?.profile.lastName}</td>
                     </tr>
                     <tr>
-                        <td>Role: </td>
+                        <td style={{ width: "500px" }}>Role: </td>
                         <td>
                             <RoleSelect
                                 role={userData?.role}
