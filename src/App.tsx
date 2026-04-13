@@ -21,13 +21,13 @@ const App = () => {
   return (
     <div className={`App ${Classes.DARK}`}>
       <h1>UI Screening 01</h1>
-      <Card style={{ width: "50%" }}>
+      <Card>
         <UserList isLoading={isLoading} users={data} onEditUser={showEditUserDialog} />
       </Card>
       <EditUserDialog
         isOpen={isOpenEditUserDialog}
         userData={selectedUserEditUserDialog}
-        onEditUser={updateUser}
+        onUpdateUser={updateUser}
         onClose={closeEditUserDialog}
       />
     </div>
