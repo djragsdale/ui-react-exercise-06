@@ -11,10 +11,15 @@ export const useEditUserDialog = () => {
     setSelectedUser(user);
     showDialog();
   }
+
+  const closeEditUserDialog = () => {
+    closeDialog();
+    setSelectedUser(undefined);
+  }
   
   return {
     isOpenEditUserDialog: isOpenDialog,
-    closeEditUserDialog: closeDialog,
+    closeEditUserDialog,
     showEditUserDialog,
     selectedUserEditUserDialog: selectedUser,
   }
