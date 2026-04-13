@@ -1,4 +1,4 @@
-import { Role, roles } from "../types/Role";
+import { type Role, roles } from "../types/Role";
 
 import { HTMLSelect } from "@blueprintjs/core";
 
