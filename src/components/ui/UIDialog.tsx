@@ -26,6 +26,6 @@ export const UIDialog = ({
                 <DialogBody>
                     {children}
                 </DialogBody>
-                {<DialogFooter actions={footerActions} />}
+                {footerActions && <DialogFooter actions={footerActions} />}
             </Dialog>
 };
