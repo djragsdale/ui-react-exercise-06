@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Card, Button } from "@blueprintjs/core";
+import { Dialog, DialogBody, DialogFooter } from "@blueprintjs/core";
 
 import type { User } from "../types/User";
 import { type Role, roles } from "../types/Role";
 
-import { UIDialog } from "./ui/UIDialog";
 import { RoleSelect } from "./RoleSelect";
 
 import "./EditUserDialog.scss";
@@ -36,33 +36,29 @@ export const EditUserDialog = ({ isOpen, userData, onUpdateUser, onClose, }: Edi
         onClose?.();
     }
 
-    if (!editedUserData) return null;
+    if (!isOpen || !editedUserData) return null;
 
-    return <UIDialog
-            title="Edit User"
-            isCloseButtonShown={false}
-            isOpen={isOpen}
-            icon="edit"
-            footerActions={(<>
-                              <Button onClick={onClose}>Cancel</Button>
-                              <Button onClick={handleEditUser}>Save</Button>
-                            </>
-                          )}
+    return  <Dialog
+                title="Edit User"
+                isOpen={isOpen}
+                icon="edit"
+                isCloseButtonShown={false}
             >
+            <DialogBody>
             <Card className="cardUserDialog">
-                <div>
+                <div className="rowUserDialog">
                     <span className="titleUserDialog"><strong>Id:</strong></span>
                     <span>{editedUserData.idUser}</span>
                 </div>
-                <div>
+                <div className="rowUserDialog">
                     <span className="titleUserDialog"><strong>Firstname:</strong></span>
                     <span>{editedUserData.profile.firstName}</span>
                 </div>
-                <div>
+                <div className="rowUserDialog">
                     <span className="titleUserDialog"><strong>Lastname:</strong></span>
                     <span>{editedUserData.profile.lastName}</span>
                 </div>
-                <div>
+                <div className="rowUserDialog">
                     <span className="titleUserDialog"><strong>Role:</strong></span>
                     <RoleSelect
                         role={editedUserData?.role?? roles[0]}
@@ -70,5 +66,9 @@ export const EditUserDialog = ({ isOpen, userData, onUpdateUser, onClose, }: Edi
                     />
                 </div>
             </Card>
-          </UIDialog>
+            </DialogBody>
+            <DialogFooter
+                actions={<><Button onClick={onClose}>Cancel</Button><Button onClick={handleEditUser}>Save</Button></>}
+            />
+        </Dialog>
 };
