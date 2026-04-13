@@ -1,24 +1,23 @@
 import { useState } from "react";
 
 import type { User } from "../types/User";
-import { useUIDialog } from "./useUIDialog";
 
 export const useEditUserDialog = () => {
   const [selectedUser, setSelectedUser] = useState<User>();
-  const { isOpenDialog, showDialog, closeDialog } = useUIDialog();
+  const [isOpen, setIsOpen] = useState(false);
 
   const showEditUserDialog = (user: User) => {
     setSelectedUser(user);
-    showDialog();
+    setIsOpen(true);
   }
 
   const closeEditUserDialog = () => {
-    closeDialog();
+    setIsOpen(false);
     setSelectedUser(undefined);
   }
   
   return {
-    isOpenEditUserDialog: isOpenDialog,
+    isOpenEditUserDialog: isOpen,
     closeEditUserDialog,
     showEditUserDialog,
     selectedUserEditUserDialog: selectedUser,
