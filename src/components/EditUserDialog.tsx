@@ -40,7 +40,7 @@ export const EditUserDialog = ({ isOpen, userData, updateUser, close, }: EditUse
 
     return  <Dialog
                 title="Edit User"
-                isOpen={true}
+                isOpen={isOpen}
                 icon="edit"
                 isCloseButtonShown={false}
             >
@@ -61,7 +61,7 @@ export const EditUserDialog = ({ isOpen, userData, updateUser, close, }: EditUse
                 <div className="rowUserDialog">
                     <span className="titleUserDialog"><strong>Role:</strong></span>
                     <RoleSelect
-                        role={editedUserData?.role}
+                        role={editedUserData.role}
                         onChangeRole={handleOnChangeRole}
                     />
                 </div>
