@@ -1,4 +1,4 @@
-import { Spinner } from "@blueprintjs/core";
+import { Spinner, HTMLTable } from "@blueprintjs/core";
 
 import type { User } from "../types/User";
 import { UserRow } from "./UserRow";
@@ -14,15 +14,20 @@ export const UserList = ({ isLoading, onEditUser, users }: UserListProps) => {
     return <Spinner intent="primary" size={100} />;
   }
 
-  if(!users?.length) {
-    return <div>There is no items</div>;
-  }
-
-  return <table style={{ width: "100%", tableLayout: "fixed" }}>
+  return <HTMLTable>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Role</th>
+        <th></th>
+      </tr>
+    </thead>
     <tbody>
       {users?.map ((userItem) =>
         <UserRow key={`user-row-${userItem.idUser}`} userItem={userItem} onEditUser={onEditUser} />
       )}
     </tbody>
-  </table>;
+  </HTMLTable>;
 };
