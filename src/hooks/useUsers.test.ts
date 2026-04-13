@@ -15,6 +15,7 @@ describe("useUsers", () => {
 
   it("returns no data initially", () => {
     const { result } = renderHook(() => useUsers());
+    expect(result.current.isLoading).toBe(true);
     expect(result.current.data).toBeUndefined();
   });
 
