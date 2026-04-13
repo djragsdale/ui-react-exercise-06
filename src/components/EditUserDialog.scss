@@ -2,11 +2,12 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    div {
-        display: flex;
-        
-        .titleUserDialog {
-            min-width: 50%;
-        }
-    }
+}
+
+.rowUserDialog {
+    display: flex;
+}
+
+.titleUserDialog {
+    min-width: 50%;
 }
