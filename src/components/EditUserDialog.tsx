@@ -66,7 +66,7 @@ export const EditUserDialog = ({ isOpen, userData, onEditUser, onClose, }: EditU
                         <td style={{ width: "500px" }}>Role: </td>
                         <td>
                             <RoleSelect
-                                role={userData?.role}
+                                role={editedUserData?.role}
                                 onChangeRole={handleOnChangeRole}
                             />
                         </td>
