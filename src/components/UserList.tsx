@@ -3,6 +3,8 @@ import { Spinner, HTMLTable } from "@blueprintjs/core";
 import type { User } from "../types/User";
 import { UserRow } from "./UserRow";
 
+import "./UserList.scss";
+
 type UserListProps = {
   isLoading?: boolean;
   onEditUser?: (user: User) => void;
@@ -20,7 +22,7 @@ export const UserList = ({ isLoading, onEditUser, users }: UserListProps) => {
         <th>Id</th>
         <th>Firstname</th>
         <th>Lastname</th>
-        <th>Role</th>
+        <th className="roleColumnUserList">Role</th>
         <th></th>
       </tr>
     </thead>
