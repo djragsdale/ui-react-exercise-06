@@ -3,20 +3,20 @@ import { Card, Button } from "@blueprintjs/core";
 import { Dialog, DialogBody, DialogFooter } from "@blueprintjs/core";
 
 import type { User } from "../types/User";
-import { type Role, roles } from "../types/Role";
+import { type Role } from "../types/Role";
 
 import { RoleSelect } from "./RoleSelect";
 
 import "./EditUserDialog.scss";
 
 interface EditUserDialog {
-    onUpdateUser: (idUser: number, editedUserData: User) => void;
     isOpen: boolean;
     userData?: User;
-    onClose: () => void;
+    close: () => void;
+    updateUser: (idUser: number, editedUserData: User) => void;
 }
 
-export const EditUserDialog = ({ isOpen, userData, onUpdateUser, onClose, }: EditUserDialog) => {
+export const EditUserDialog = ({ isOpen, userData, updateUser, close, }: EditUserDialog) => {
     const [editedUserData, setEditedUserData] = useState<User|undefined>(userData);
 
     useEffect(() => {
@@ -32,15 +32,15 @@ export const EditUserDialog = ({ isOpen, userData, onUpdateUser, onClose, }: Edi
 
     const handleEditUser = () => {
         if(!editedUserData) return;
-        onUpdateUser?.(editedUserData.idUser, editedUserData);
-        onClose?.();
+        updateUser(editedUserData.idUser, editedUserData);
+        close();
     }
 
     if (!isOpen || !editedUserData) return null;
 
     return  <Dialog
                 title="Edit User"
-                isOpen={isOpen}
+                isOpen={true}
                 icon="edit"
                 isCloseButtonShown={false}
             >
@@ -61,14 +61,14 @@ export const EditUserDialog = ({ isOpen, userData, onUpdateUser, onClose, }: Edi
                 <div className="rowUserDialog">
                     <span className="titleUserDialog"><strong>Role:</strong></span>
                     <RoleSelect
-                        role={editedUserData?.role?? roles[0]}
+                        role={editedUserData?.role}
                         onChangeRole={handleOnChangeRole}
                     />
                 </div>
             </Card>
             </DialogBody>
             <DialogFooter
-                actions={<><Button onClick={onClose}>Cancel</Button><Button onClick={handleEditUser}>Save</Button></>}
+                actions={<><Button onClick={close}>Cancel</Button><Button onClick={handleEditUser}>Save</Button></>}
             />
         </Dialog>
 };
