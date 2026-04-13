@@ -1,174 +1,81 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { roles } from "../types/Role";
+import { Role } from "../types/Role";
 
-import { useState } from "react";
 import { EditUserDialog } from "./EditUserDialog";
+import type { User } from "../types/User";
 
-const testUser = {
+const NEW_ROLE: Role = "Administrator";
+const OLD_ROLE: Role = "Engineer";
+const createTestUser = () => ({
     idUser: 1,
     profile: {
       firstName: "ABC",
       lastName: "DEF",
     },
-    role: roles[0],
+    role: OLD_ROLE,
+});
+const renderEditUserDialog = (props = {}) => {
+  const userData: User = createTestUser();
+  const handlers = {
+      close: jest.fn(),
+      updateUser: jest.fn()
+  };
+  const testingUtils = render(<EditUserDialog
+                                isOpen={true}
+                                userData={userData}
+                                {...props}
+                                {...handlers}
+                              />);
+  return {
+    user: userEvent.setup(),
+    userData,
+    handlers,
+    ...testingUtils,
+  };
 };
-
-const testEditedRole = roles[1];
 
 describe("EditUserDialog", () => {
   it("If the user chooses to cancel the role change, the UserList does not update", async () => {
-    const user = userEvent.setup();
-    const cancel = jest.fn();
-    const onUpdateUser = jest.fn();
-
-    const ContainerDialog = () => {
-    const [open, setOpen] = useState(false);
-    const [selectedUser,] = useState(testUser);
-    return (
-    <>
-      <button onClick={() => setOpen(true)}>Open dialog</button>
-
-      <EditUserDialog
-        isOpen={open}
-        userData={selectedUser}
-        onUpdateUser={onUpdateUser}
-        onClose={cancel}
-      />
-    </>
-    )};
-
-    render(<ContainerDialog />);
-    
-    await user.click(screen.getByText("Open dialog"));
-
-    expect(await screen.findByRole("dialog")).toBeInTheDocument();
-
-    await user.click(screen.getByText("Cancel"));
-
-    expect(onUpdateUser).not.toHaveBeenCalled();
-    expect(cancel).toHaveBeenCalled();
+    const { user, getByRole, handlers } = renderEditUserDialog();
+    await user.click(getByRole("button", { name: /^cancel$/i }));
+    expect(handlers.updateUser).not.toHaveBeenCalled();
+    expect(handlers.close).toHaveBeenCalledTimes(1);
   });
 
   it("The UserList does not update until the user clicks a Save button in the dialog", async () => {
-    const user = userEvent.setup();
-    const cancel = jest.fn();
-    const onUpdateUser = jest.fn();
-
-    const ContainerDialog = () => {
-    const [open, setOpen] = useState(false);
-    const [selectedUser] = useState(testUser);
-
-    return (
-    <>
-      <button onClick={() => setOpen(true)}>Open dialog</button>
-
-      <EditUserDialog
-        isOpen={open}
-        userData={selectedUser}
-        onUpdateUser={onUpdateUser}
-        onClose={cancel}
-      />
-    </>
-    )};
-
-    render(<ContainerDialog />);
-    
-    const trigger = await screen.findByText("Open dialog");
-
-    expect(trigger).toBeInTheDocument();
-
-    await user.click(trigger);
-
-    expect(await screen.findByRole("dialog")).toBeInTheDocument();
-
-    const select = screen.getByRole("combobox");
-
+    const { user, userData, getByRole, handlers } = renderEditUserDialog();
+    const expectedUser = { ...userData, role: NEW_ROLE };
+    const select = getByRole("combobox");
     expect(select).toBeInTheDocument();
-    expect(select).toHaveValue(testUser.role);
-
-    await user.selectOptions(select, roles[1]);
-    
-    expect(select).toHaveValue(roles[1]);
-    expect(onUpdateUser).not.toHaveBeenCalled();
-    await user.click(screen.getByText("Save"));
-    expect(onUpdateUser).toHaveBeenCalled();
-    expect(onUpdateUser).toHaveBeenCalledWith(testUser.idUser, { ...testUser, role: testEditedRole });
+    expect(select).toHaveValue(userData.role);
+    await user.selectOptions(select, NEW_ROLE);
+    expect(select).toHaveValue(NEW_ROLE);
+    expect(handlers.updateUser).not.toHaveBeenCalled();
+    await user.click(getByRole("button", { name: /^save$/i }));
+    expect(handlers.updateUser).toHaveBeenCalled();
+    expect(handlers.updateUser).toHaveBeenCalledWith(userData.idUser, expectedUser);
   });
 
   it("The dialog closes when the user saves the role change", async () => {
-    const user = userEvent.setup();
-    const close = jest.fn();
-    const onUpdateUser = jest.fn();
-
-    const ContainerDialog = () => {
-      const [open, setOpen] = useState(false);
-      const [selectedUser,] = useState(testUser);
-      return (
-      <>
-        <button onClick={() => setOpen(true)}>Open dialog</button>
-        <EditUserDialog
-          isOpen={open}
-          userData={selectedUser}
-          onUpdateUser={onUpdateUser}
-          onClose={close}
-        />
-      </>
-    )};
-
-    render(<ContainerDialog />);
-
-    const trigger = await screen.findByText("Open dialog");
-
-    expect(trigger).toBeInTheDocument();
-
-    await user.click(trigger);
-
-    expect(await screen.findByRole("dialog")).toBeInTheDocument();
-
-    const select = screen.getByRole("combobox");
-
+    const { user, userData, getByRole, handlers } = renderEditUserDialog();
+    const select = getByRole("combobox");
     expect(select).toBeInTheDocument();
-    expect(select).toHaveValue(testUser.role);
-
-    await user.selectOptions(select, roles[1]);
-    
-    expect(select).toHaveValue(roles[1]);
-    expect(onUpdateUser).not.toHaveBeenCalled();
-    await user.click(screen.getByText("Save"));
-    expect(onUpdateUser).toHaveBeenCalled();
-    expect(onUpdateUser).toHaveBeenCalledWith(testUser.idUser, { ...testUser, role: testEditedRole });
-    expect(close).toHaveBeenCalled();
+    expect(select).toHaveValue(userData.role);
+    await user.selectOptions(select, NEW_ROLE);
+    expect(select).toHaveValue(NEW_ROLE);
+    expect(handlers.updateUser).not.toHaveBeenCalled();
+    await user.click(getByRole("button", { name: /^save$/i }));
+    expect(handlers.updateUser).toHaveBeenCalled();
+    expect(handlers.close).toHaveBeenCalled();
   });
 
-  it("The dialog displays all available user data, even values not being changed", async () => {
-    const user = userEvent.setup();
-    const cancel = jest.fn();
-    const onEditUser = jest.fn();
-
-    const ContainerDialog = () => {
-      const [open, setOpen] = useState(false);
-      const [selectedUser,] = useState(testUser);
-      return (
-      <>
-        <button onClick={() => setOpen(true)}>Open dialog</button>
-        <EditUserDialog
-          isOpen={open}
-          userData={selectedUser}
-          onUpdateUser={onEditUser}
-          onClose={cancel}
-        />
-      </>
-    )};
-
-    render(<ContainerDialog />);
-
-    await user.click(screen.getByText("Open dialog"));
-
-    expect(screen.getByText(testUser.idUser));
-    expect(screen.getByText(testUser.profile.firstName));
-    expect(screen.getByText(testUser.profile.lastName));
-    expect(screen.getByText(testUser.role));
+  it("The dialog displays all available user data, even values not being changed", () => {
+    const { userData, getByText } = renderEditUserDialog();
+    expect(getByText(userData.idUser)).toBeInTheDocument();
+    expect(getByText(userData.profile.firstName)).toBeInTheDocument();
+    expect(getByText(userData.profile.lastName)).toBeInTheDocument();
+    expect(getByText(userData.role)).toBeInTheDocument();
     });
 });
