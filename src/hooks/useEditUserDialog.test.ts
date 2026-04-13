@@ -1,9 +1,7 @@
 import { renderHook, act } from "@testing-library/react";
 import { useEditUserDialog } from "./useEditUserDialog";
 
-import type { Role } from "../types/Role";
-
-const OLD_ROLE: Role = "Engineer";
+const OLD_ROLE = "Engineer";
 const createTestUser = () => ({
     idUser: 1,
     profile: {

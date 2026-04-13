@@ -1,12 +1,10 @@
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { type Role } from "../types/Role";
-
 import { UserRow } from "./UserRow";
 import { User } from "../types/User";
 
-const OLD_ROLE: Role = "Engineer";
+const OLD_ROLE = "Engineer";
 
 const createTestUser = () => ({
     idUser: 1,

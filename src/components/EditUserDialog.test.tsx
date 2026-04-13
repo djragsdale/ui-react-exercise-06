@@ -1,13 +1,11 @@
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { Role } from "../types/Role";
-
 import { EditUserDialog } from "./EditUserDialog";
 import type { User } from "../types/User";
 
-const NEW_ROLE: Role = "Administrator";
-const OLD_ROLE: Role = "Engineer";
+const NEW_ROLE = "Administrator";
+const OLD_ROLE = "Engineer";
 const createTestUser = () => ({
     idUser: 1,
     profile: {

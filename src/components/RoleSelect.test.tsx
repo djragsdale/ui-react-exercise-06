@@ -1,14 +1,12 @@
-import { render, waitFor } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-
-import type { Role } from "../types/Role";
 
 import { RoleSelect } from "./RoleSelect";
 
-const NEW_ROLE: Role = "Administrator";
+const NEW_ROLE = "Administrator";
 
 const renderRoleSelect = (props = {}) => {
-  const selectedRole: Role = "Engineer";
+  const selectedRole = "Engineer";
   const handlers = {
       onChangeRole: jest.fn(),
   };

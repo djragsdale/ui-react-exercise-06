@@ -1,7 +1,6 @@
 import { act, render } from "@testing-library/react";
 
 import { UserList } from "./UserList";
-import { roles } from "../types/Role";
 
 const testUsers = [
   {
@@ -10,7 +9,7 @@ const testUsers = [
       firstName: "ABC",
       lastName: "DEF",
     },
-    role: roles[0],
+    role: "Role1",
   },
   {
     idUser: 2,
@@ -18,7 +17,7 @@ const testUsers = [
       firstName: "GHI",
       lastName: "JKL",
     },
-    role: roles[1],
+    role: "Role2",
   },
 ];
 
@@ -43,11 +42,11 @@ describe("UserList", () => {
     expect(tableRows[0].textContent).toMatch("1");
     expect(tableRows[0].textContent).toMatch("ABC");
     expect(tableRows[0].textContent).toMatch("DEF");
-    expect(tableRows[0].textContent).toMatch(roles[0]);
+    expect(tableRows[0].textContent).toMatch("Role1");
     expect(tableRows[1].textContent).toMatch("2");
     expect(tableRows[1].textContent).toMatch("GHI");
     expect(tableRows[1].textContent).toMatch("JKL");
-    expect(tableRows[1].textContent).toMatch(roles[1]);
+    expect(tableRows[1].textContent).toMatch("Role2");
   });
 
   it("invokes onEditUser callback when Edit button is pressed", () => {

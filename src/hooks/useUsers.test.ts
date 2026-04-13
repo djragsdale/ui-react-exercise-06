@@ -1,7 +1,6 @@
 import { act, renderHook } from "@testing-library/react";
 
 import { TIME_DELAY, useUsers } from "./useUsers";
-import { roles } from "../types/Role";
 import { User } from "../types/User";
 
 describe("useUsers", () => {
@@ -47,7 +46,7 @@ describe("useUsers", () => {
         firstName: currentUser?.profile.firstName ?? "",
         lastName: currentUser?.profile.lastName ?? ""
       },
-      role: roles[1]
+      role: "Support Technician"
     };
 
     act(() => {

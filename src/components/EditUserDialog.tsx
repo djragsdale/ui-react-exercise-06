@@ -3,7 +3,6 @@ import { Card, Button } from "@blueprintjs/core";
 import { Dialog, DialogBody, DialogFooter } from "@blueprintjs/core";
 
 import type { User } from "../types/User";
-import { type Role } from "../types/Role";
 
 import { RoleSelect } from "./RoleSelect";
 
@@ -23,7 +22,7 @@ export const EditUserDialog = ({ isOpen, userData, updateUser, close, }: EditUse
         setEditedUserData(userData);
     }, [userData])
 
-    const handleOnChangeRole = (role: Role) => {
+    const handleOnChangeRole = (role: string) => {
         setEditedUserData(prevUser => {
             if(!prevUser) return prevUser;
             return {...prevUser, role, }
@@ -68,7 +67,10 @@ export const EditUserDialog = ({ isOpen, userData, updateUser, close, }: EditUse
             </Card>
             </DialogBody>
             <DialogFooter
-                actions={<><Button onClick={close}>Cancel</Button><Button onClick={handleEditUser}>Save</Button></>}
+                actions={<>
+                            <Button onClick={close}>Cancel</Button>
+                            <Button onClick={handleEditUser}>Save</Button>
+                        </>}
             />
         </Dialog>
 };

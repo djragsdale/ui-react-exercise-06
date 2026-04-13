@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 
 import type { User } from "../types/User";
-import { roles } from "../types/Role";
 
 import { useDelayedEffect } from "./useDelayedEffect";
 
@@ -12,7 +11,7 @@ const users: User[] = [
       firstName: "Adam",
       lastName: "Alpaca",
     },
-    role: roles[0],
+    role: "Engineer",
   },
   {
     idUser: 1002,
@@ -20,7 +19,7 @@ const users: User[] = [
       firstName: "Bradly",
       lastName: "Buffalo",
     },
-    role: roles[1],
+    role: "Administrator",
   },
   {
     idUser: 1003,
@@ -28,7 +27,7 @@ const users: User[] = [
       firstName: "Charles",
       lastName: "Chinchilla",
     },
-    role: roles[2],
+    role: "Support Technician",
   },
 ];
 
