@@ -27,8 +27,8 @@ const App = () => {
       <EditUserDialog
         isOpen={isOpenEditUserDialog}
         userData={selectedUserEditUserDialog}
-        onUpdateUser={updateUser}
-        onClose={closeEditUserDialog}
+        updateUser={updateUser}
+        close={closeEditUserDialog}
       />
     </div>
   );
