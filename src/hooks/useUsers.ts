@@ -52,7 +52,7 @@ export const useUsers = () => {
     
     setData((prev: User[] | undefined) =>
       prev?.map((prevUser:User) =>
-        prevUser?.idUser === idUser ? user : prevUser
+        prevUser.idUser === idUser ? user : prevUser
       )
     );
   };
