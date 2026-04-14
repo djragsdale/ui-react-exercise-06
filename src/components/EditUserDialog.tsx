@@ -10,13 +10,16 @@ import "./EditUserDialog.scss";
 
 interface EditUserDialog {
     isOpen: boolean;
-    userData?: User;
+    userData: User | null;
     close: () => void;
     updateUser: (idUser: number, editedUserData: User) => void;
 }
 
 export const EditUserDialog = ({ isOpen, userData, updateUser, close, }: EditUserDialog) => {
-    const [editedUserData, setEditedUserData] = useState<User|undefined>(userData);
+    const [editedUserData, setEditedUserData] = useState<User|null>(userData);
+    const isDirty = !!userData &&
+                    !!editedUserData &&
+                    editedUserData?.role !== userData?.role;
 
     useEffect(() => {
         setEditedUserData(userData);
@@ -31,7 +34,9 @@ export const EditUserDialog = ({ isOpen, userData, updateUser, close, }: EditUse
 
     const handleEditUser = () => {
         if(!editedUserData) return;
-        updateUser(editedUserData.idUser, editedUserData);
+        if(isDirty) {
+            updateUser(editedUserData.idUser, editedUserData);
+        }
         close();
     }
 

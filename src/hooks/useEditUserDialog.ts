@@ -3,7 +3,7 @@ import { useState } from "react";
 import type { User } from "../types/User";
 
 export const useEditUserDialog = () => {
-  const [selectedUser, setSelectedUser] = useState<User>();
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
   const showEditUserDialog = (user: User) => {
@@ -13,7 +13,7 @@ export const useEditUserDialog = () => {
 
   const closeEditUserDialog = () => {
     setIsOpen(false);
-    setSelectedUser(undefined);
+    setSelectedUser(null);
   }
   
   return {

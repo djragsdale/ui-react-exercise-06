@@ -1,26 +1,25 @@
-import { MouseEvent } from "react";
 import type { User } from "../types/User";
 
 import { Button } from "@blueprintjs/core";
 
 type UserRowProps = {
   onEditUser?: (user: User) => void;
-  userItem: User;
+  user: User;
 };
 
-export const UserRow = ({ userItem, onEditUser }: UserRowProps) => {
-    const onEditUserRow = (event: MouseEvent<HTMLElement>) => {
-        onEditUser?.(userItem);
-        event.currentTarget.blur();
-    }
-
+export const UserRow = ({ user, onEditUser }: UserRowProps) => {
     return <tr>
-        <td>{userItem.idUser}</td>
-        <td>{userItem.profile.firstName}</td>
-        <td>{userItem.profile.lastName}</td>
-        <td>{userItem.role}</td>
-        <td>
-            <Button icon="edit" aria-label="edit" intent="primary" onClick={onEditUserRow} />
-        </td>
+        <td>{user.idUser}</td>
+        <td>{user.profile.firstName}</td>
+        <td>{user.profile.lastName}</td>
+        <td>{user.role}</td>
+        {onEditUser && <td>
+            <Button
+                icon="edit"
+                aria-label="edit"
+                intent="primary"
+                onClick={() => onEditUser(user)}
+            />
+        </td>}
     </tr>
 };

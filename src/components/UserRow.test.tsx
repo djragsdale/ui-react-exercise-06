@@ -20,7 +20,7 @@ const renderRow = (props = {}) => {
   const callbacks = { onEditUser: jest.fn() };
   const container = <table>
                       <tbody>
-                        <UserRow userItem={testUser} {...props} {...callbacks} />
+                        <UserRow user={testUser} {...props} {...callbacks} />
                       </tbody>
                     </table>;
   return ({

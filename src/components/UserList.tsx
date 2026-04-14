@@ -23,12 +23,16 @@ export const UserList = ({ isLoading, onEditUser, users }: UserListProps) => {
         <th>Firstname</th>
         <th>Lastname</th>
         <th className="roleColumnUserList">Role</th>
-        <th></th>
+        {onEditUser && <th>Actions</th>}
       </tr>
     </thead>
     <tbody>
       {users?.map ((userItem) =>
-        <UserRow key={`user-row-${userItem.idUser}`} userItem={userItem} onEditUser={onEditUser} />
+        <UserRow
+          key={`user-row-${userItem.idUser}`}
+          user={userItem}
+          onEditUser={onEditUser}
+        />
       )}
     </tbody>
   </HTMLTable>;

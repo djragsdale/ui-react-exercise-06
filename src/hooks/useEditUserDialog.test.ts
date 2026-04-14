@@ -30,6 +30,6 @@ describe("useEditUserDialog", () => {
             result.current.closeEditUserDialog();
         });
         expect(result.current.isOpenEditUserDialog).toBe(false);
-        expect(result.current.selectedUserEditUserDialog).toBeUndefined();
+        expect(result.current.selectedUserEditUserDialog).toBeNull();
     });
 });
