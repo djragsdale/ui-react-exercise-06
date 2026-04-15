@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Card, Button } from "@blueprintjs/core";
 import { Dialog, DialogBody, DialogFooter } from "@blueprintjs/core";
 
@@ -10,36 +9,13 @@ import "./EditUserDialog.scss";
 
 interface EditUserDialog {
     isOpen: boolean;
-    userData: User | null;
+    editedUserData: User | null;
     close: () => void;
-    updateUser: (idUser: number, editedUserData: User) => void;
+    saveUser: (editedUserData: User | null) => void;
+    onChangeRole: (role: string) => void;
 }
 
-export const EditUserDialog = ({ isOpen, userData, updateUser, close, }: EditUserDialog) => {
-    const [editedUserData, setEditedUserData] = useState<User|null>(userData);
-    const isDirty = !!userData &&
-                    !!editedUserData &&
-                    editedUserData?.role !== userData?.role;
-
-    useEffect(() => {
-        setEditedUserData(userData);
-    }, [userData])
-
-    const handleOnChangeRole = (role: string) => {
-        setEditedUserData(prevUser => {
-            if(!prevUser) return prevUser;
-            return {...prevUser, role, }
-        });
-    }
-
-    const handleEditUser = () => {
-        if(!editedUserData) return;
-        if(isDirty) {
-            updateUser(editedUserData.idUser, editedUserData);
-        }
-        close();
-    }
-
+export const EditUserDialog = ({ isOpen, editedUserData, saveUser, onChangeRole, close, }: EditUserDialog) => {
     if (!isOpen || !editedUserData) return null;
 
     return  <Dialog
@@ -66,7 +42,7 @@ export const EditUserDialog = ({ isOpen, userData, updateUser, close, }: EditUse
                     <span className="titleUserDialog"><strong>Role:</strong></span>
                     <RoleSelect
                         role={editedUserData.role}
-                        onChangeRole={handleOnChangeRole}
+                        onChangeRole={onChangeRole}
                     />
                 </div>
             </Card>
@@ -74,7 +50,7 @@ export const EditUserDialog = ({ isOpen, userData, updateUser, close, }: EditUse
             <DialogFooter
                 actions={<>
                             <Button onClick={close}>Cancel</Button>
-                            <Button onClick={handleEditUser}>Save</Button>
+                            <Button onClick={() => saveUser(editedUserData)}>Save</Button>
                         </>}
             />
         </Dialog>
