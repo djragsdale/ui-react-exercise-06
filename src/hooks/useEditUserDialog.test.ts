@@ -17,19 +17,19 @@ describe("useEditUserDialog", () => {
     it("opens dialog and sets selected user", () => {
         const { result } = renderHook(() => useEditUserDialog());
         act(() => {
-            result.current.showEditUserDialog(testUser);
+            result.current.editUserDialogActions.show(testUser);
         });
-        expect(result.current.isOpenEditUserDialog).toBe(true);
-        expect(result.current.selectedUserEditUserDialog).toEqual(testUser);
+        expect(result.current.editUserDialogState.isOpen).toBe(true);
+        expect(result.current.editUserDialogState.selectedUser).toEqual(testUser);
     });
 
     it("closes dialog and clears selected user", () => {
         const { result } = renderHook(() => useEditUserDialog());
         act(() => {
-            result.current.showEditUserDialog(testUser);
-            result.current.closeEditUserDialog();
+            result.current.editUserDialogActions.show(testUser);
+            result.current.editUserDialogActions.close();
         });
-        expect(result.current.isOpenEditUserDialog).toBe(false);
-        expect(result.current.selectedUserEditUserDialog).toBeNull();
+        expect(result.current.editUserDialogState.isOpen).toBe(false);
+        expect(result.current.editUserDialogState.selectedUser).toBeNull();
     });
 });
