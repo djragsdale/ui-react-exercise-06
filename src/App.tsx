@@ -2,6 +2,8 @@ import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 import "./App.css";
 
+import type { User } from "./types/User";
+
 import { Card, Classes } from "@blueprintjs/core";
 import { UserList } from "./components/UserList";
 import { EditUserDialog } from "./components/EditUserDialog";
@@ -12,10 +14,9 @@ import { useEditUserDialog } from "./hooks/useEditUserDialog";
 const App = () => {
   const { data, isLoading, updateUser } = useUsers();
   const {
-    isOpenEditUserDialog,
-    selectedUserEditUserDialog,
-    showEditUserDialog,
-    closeEditUserDialog,
+    editUserDialogState,
+    editUserDialogActions,
+    editUserDialogHandlers
   } = useEditUserDialog();
 
   return (
@@ -25,14 +26,21 @@ const App = () => {
         <UserList
           isLoading={isLoading}
           users={data}
-          onEditUser={showEditUserDialog}
+          onEditUser={editUserDialogActions.show}
         />
       </Card>
       <EditUserDialog
-        isOpen={isOpenEditUserDialog}
-        userData={selectedUserEditUserDialog}
-        updateUser={updateUser}
-        close={closeEditUserDialog}
+        isOpen={editUserDialogState.isOpen}
+        editedUserData={editUserDialogState.editedUserData}
+        saveUser={(editedUserData: User | null) => {
+          const userUpdated = editUserDialogHandlers.getUpdatedUser(editedUserData);
+          if(!!userUpdated) {
+            updateUser(userUpdated.idUser, userUpdated);
+          }
+          editUserDialogActions.close();
+        }}
+        onChangeRole={editUserDialogHandlers.onChangeRole}
+        close={editUserDialogActions.close}
       />
     </div>
   );
