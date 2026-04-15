@@ -30,7 +30,7 @@ describe("RoleSelect", () => {
     expect(getByRole("combobox")).toHaveValue(selectedRole);
    });
 
-  it.only("calls onChangeRole and updates the selected value", async () => {
+  it("calls onChangeRole and updates the selected value", async () => {
     const { user, getByRole, handlers } = renderRoleSelect();
     const select = getByRole("combobox");
     await user.selectOptions(select, NEW_ROLE);
